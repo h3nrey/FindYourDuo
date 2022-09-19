@@ -10,6 +10,8 @@ import { GameController } from 'phosphor-react';
 import { Input } from './components/Form/input';
 import { CreateAdModal } from './components/CreateAdModal';
 
+import { GamesCarousel } from './components/GamesCarousel';
+
 interface Game{
   id: string;
   title: string;
@@ -33,20 +35,7 @@ function App() {
       <img src={logoImg} alt="logo" />
       <h1 className='text-6xl text-white font-black mt-20'>Seu <span className='bg-nlw-gradient bg-clip-text text-transparent'>duo</span> está aqui.</h1>
 
-      <div className='grid  grid-cols-6 gap-6 mt-16'>
-
-        {games.map(game => {
-          return(
-            <GameBanner 
-              key={ game.id}
-              title={game.title}
-              bannerUrl={game.bannerUrl} 
-              adsCount={game._count.ads}
-            />
-          )
-        })}
-        
-      </div>
+      <GamesCarousel items={games}/>
 
       <Dialog.Root >
         <CreateAdBanner />
