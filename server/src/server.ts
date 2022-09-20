@@ -49,8 +49,21 @@ app.post("/games/:id/ads", async(req,res) => {
   res.status(201).json(ad);
 })
 
+app.get("/games/ads", async(req,response) => {
+  const ads = await prisma.ad.findMany()
+
+  response.status(201).json(ads.map(ad => {
+    return {
+      ...ad,
+      hourStart: convertMinutesToHourString(ad.hourStart),
+      hourEnd: convertMinutesToHourString(ad.hourEnd)
+    }
+  }));
+})
+
+
 app.get("/games/:id/ads", async(req,response) => {
-  const gameId = req.params.id;
+  const gameId = String(req.params.id);
 
   const ads = await prisma.ad.findMany({
     select: {
