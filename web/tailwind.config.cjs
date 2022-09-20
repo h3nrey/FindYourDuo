@@ -15,7 +15,7 @@ module.exports = {
       'lg': '1000px',
       // => @media (min-width: 1024px) { ... }
 
-      'xl': '1280px',
+      'xl': '1680px',
       // => @media (min-width: 1280px) { ... }
 
       '2xl': '1536px',
@@ -31,6 +31,7 @@ module.exports = {
         "game-gradient": 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 67.08%)',
       },
       colors:{
+        gradient: "'linear-gradient(89.86deg, #9572FC 23.08%, #43E7AD 33.94%, #E1D55D 44.57%)'"
       }
     },
   },

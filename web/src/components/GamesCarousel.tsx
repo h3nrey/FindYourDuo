@@ -34,11 +34,17 @@ export function GamesCarousel({ items }: { items: CarouselProps[] }) {
       },
       "(min-width: 300px)":{
         slides: {
-          perView: 3,
-          spacing: 16,
+          perView: 2,
+          spacing: 8,
         },
       },
       "(min-width: 1000px)": {
+        slides: {
+          perView: 5,
+          spacing: 16,
+        },
+      },
+      "(min-width: 1300px)": {
         slides: {
           perView: 6,
           spacing: 16,
@@ -53,7 +59,7 @@ export function GamesCarousel({ items }: { items: CarouselProps[] }) {
   })
 
   return(
-    <div className='navigation-wrapper relative w-[100vw] px-[10%] md:px-[15%]  mt-16'> 
+    <div className='navigation-wrapper relative w-[100%] px-0 md:px-12'> 
       {items.length > 0 && (
         <div ref={sliderRef} className='keen-slider'>
           {items.map(game => {
@@ -102,19 +108,27 @@ function Arrow(props: {
   onClick: (e: any) => void;
 }) {
   const disabled = props.disabled ? " arrow--disabled" : "";
+  const [hoverColor,setHoverColor] = useState("");
+  function randomColor() {
+    const colors = ["hover:text-[#9572FC]", "hover:text-[#43E7AD]", "hover:text-[#E2D45C]" ]
+    const randomIndex = Math.floor(Math.random() * 3)
+    setHoverColor(colors[randomIndex]);
+  }
   return (
     <button
       onClick={props.onClick}
-      className={`content-[''] absolute top-2/4 cursor-pointer md:w-16 md:h-16 sm:w-8 sm:h-8 -translate-x-1/2 -translate-y-2/4  z-10 text-white ${
-        props.left ? "arrow--left left-[6%] lg:left-[9%]" : "arrow--right left-auto lg:right-[5%] md:right-[0%] right-[-2.5%]"
+      onMouseEnter={randomColor}
+      className={`hidden md:block content-[''] absolute top-2/4 cursor-pointer md:w-12 md:h-12 sm:w-8 sm:h-8 -translate-x-1/2 -translate-y-2/4 ${hoverColor} transition-all duration-300 z-10 text-white ${
+        props.left ? "arrow--left left-[6%] lg:left-[1.4%]" : "arrow--right left-auto lg:right-[-1.7%] md:right-[0%] right-[-2.5%]"
       } ${disabled}`}
     >
       {props.left && (
-        <ArrowFatLeft size="100%" weight="fill" className="text-white"/>
+        <ArrowFatLeft size="100%" weight="fill"/>
       )}
       {!props.left && (
-        <ArrowFatRight size="100%" weight="fill" className="text-white"/>
+        <ArrowFatRight size="100%" weight="fill"/>
       )}
     </button>
   );
 }
+
