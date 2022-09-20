@@ -23,6 +23,11 @@ app.get("/games", async(req,res) => {
           ads: true,
         }
       }
+    },
+    orderBy: {
+      ads: {
+        _count: 'desc'
+      }
     }
   })
   res.send(games);
@@ -50,7 +55,9 @@ app.post("/games/:id/ads", async(req,res) => {
 })
 
 app.get("/games/ads", async(req,response) => {
-  const ads = await prisma.ad.findMany()
+  const ads = await prisma.ad.findMany({
+    
+  })
 
   response.status(201).json(ads.map(ad => {
     return {
