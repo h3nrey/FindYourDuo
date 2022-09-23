@@ -39,15 +39,27 @@ function App() {
   const [ads, setAds] = useState<Ad[]>([])
   const [selectedAd, setSelectedAd] = useState<string>("")
 
+  axios('http://localhost:8000/games/ads').then(res => {
+      setAds(res.data);
+    })
   useEffect(() => {
     axios('http://localhost:8000/games').then(res => {
       setGames(res.data);
     })
-    axios('http://localhost:8000/games/ads').then(res => {
-      setAds(res.data);
-    })
+    
   }, [])
 
+  async function deleteAd(adId: string) {
+    try {
+      await axios.delete(`http://localhost:8000/ads/${adId}`, {
+        data: {
+          id: adId
+        }
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  }
   function findGameByGameId(gameId: string) {
     const game = games.filter((game) => game.id === gameId);
     console.log(game)
@@ -75,7 +87,7 @@ function App() {
         {ads.map(ad => {
           return(
             <div key={ad.id} className="flex group">
-              <img src={findGameByGameId(ad.gameId)[0].bannerUrl} className="bg-contain flex-1" alt="" />
+              <img src={findGameByGameId(ad.gameId)[0].bannerUrl} className="bg-contain w-[100%]" alt="" />
               <div className='bg-[#2A2634] px-8 transition-all group-hover:pr-16 py-4 flex flex-col gap-4'>
                 <div className='flex flex-col'>
                   <span className='text-zinc-500 text-sm'>Nome</span>
@@ -94,7 +106,13 @@ function App() {
                   <strong className={ad.useVoiceChanel ? 'text-emerald-500' : 'text-red-500'} >{ad.useVoiceChanel ? 'Sim' : 'Não'}</strong>
                 </div>
                 
-                <Dialog.Trigger className='py-3 px-4 bg-violet-500 hover:bg-violet-600 transition-all text-white rounded flex items-center gap-3 md:mt-0' onClick={() => setSelectedAd(ad.discord)}>
+                <Dialog.Trigger 
+                  className='py-3 px-4 bg-violet-500 hover:bg-violet-600 transition-all text-white rounded flex items-center gap-3 md:mt-0' 
+                  onClick={() => {
+                    setSelectedAd(ad.discord)
+                    deleteAd(ad.id);
+                  }}
+                >
                   <GameController size={24}/>
                   Conectar
                 </Dialog.Trigger>

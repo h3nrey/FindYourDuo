@@ -100,6 +100,17 @@ app.get("/games/:id/ads", async(req,response) => {
   }));
 })
 
+app.delete("/ads/:id", async(req,res) => {
+  const adId: string = req.params.id
+  const ads  = await prisma.ad.delete({
+    where: {
+      id: adId,
+    },
+  })
+
+  res.json(ads);
+})
+
 app.get("/ads/:id/discord", async(req,response) => {
   const adId = req.params.id;
 
